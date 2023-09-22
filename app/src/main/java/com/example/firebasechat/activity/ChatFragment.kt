@@ -1,7 +1,6 @@
 package com.example.firebasechat.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import androidx.fragment.app.Fragment
 import com.example.firebasechat.R
 import com.example.firebasechat.databinding.FragmentChatBinding
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -25,6 +22,8 @@ class ChatFragment : Fragment() {
     private val slideInAnimation by lazy {
         AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_from_top)
     }
+
+    private val apiEndpoint = "https://nyay-api-sih.onrender.com/chat" // Replace with your actual API endpoint
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,13 +46,13 @@ class ChatFragment : Fragment() {
             binding.questionCardView.startAnimation(slideInAnimation)
             binding.responseCardView.startAnimation(slideInAnimation)
 
-            // setting response TextView to "Please wait.."
+            // Setting response TextView to "Please wait.."
             binding.txtResponse.text = "Please wait.."
 
-            // validating text
+            // Validating text
             val question = binding.etQuestion.text.toString().trim()
             if (question.isNotEmpty()) {
-                getResponse(question) { response ->
+                postFormData(question) { response ->
                     requireActivity().runOnUiThread {
                         binding.txtResponse.text = response
                     }
@@ -63,27 +62,17 @@ class ChatFragment : Fragment() {
 
         // Return the root view from the binding.
         return binding.root
-
     }
 
-    private fun getResponse(question: String, callback: (String) -> Unit) {
-        val apiKey = "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" // Replace with your actual API key
-        val url = "https://api.openai.com/v1/completions"
-
-        val requestBody = """
-        {
-            "model": "gpt-3.5-turbo-instruct",
-            "prompt": "$question",
-            "max_tokens": 7,
-            "temperature": 0
-        }
-    """.trimIndent()
+    private fun postFormData(userInput: String, callback: (String) -> Unit) {
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("user_input", userInput)
+            .build()
 
         val request = Request.Builder()
-            .url(url)
-            .addHeader("Content-Type", "application/json")
-            .addHeader("Authorization", "Bearer $apiKey")
-            .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
+            .url(apiEndpoint)
+            .post(requestBody)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -95,33 +84,23 @@ class ChatFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
                 if (body != null) {
-                    Log.v("data", body)
                     try {
                         val jsonObject = JSONObject(body)
 
-                        if (jsonObject.has("choices")) {
-                            val jsonArray = jsonObject.getJSONArray("choices")
-
-                            if (jsonArray.length() > 0) {
-                                val textResult = jsonArray.getJSONObject(0).getString("text")
-                                callback(textResult)
-                            } else {
-                                callback("No response available")
-                            }
+                        if (jsonObject.has("result")) {
+                            val result = jsonObject.getString("result")
+                            callback(result)
                         } else {
-                            Log.e("data", "JSON response does not contain 'choices' key:\n$body")
-                            callback("Invalid response format: 'choices' key not found")
+                            callback("No 'result' field found in the response")
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
                         callback("Invalid JSON format in response")
                     }
                 } else {
-                    Log.v("data", "empty")
                     callback("Empty response")
                 }
             }
         })
     }
-
 }
