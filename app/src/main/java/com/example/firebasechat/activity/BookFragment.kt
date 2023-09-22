@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.firebasechat.R
 import com.example.firebasechat.databinding.ArticlesBinding
 import com.example.firebasechat.databinding.FragmentBookBinding
 import com.google.android.material.snackbar.Snackbar
@@ -115,17 +116,24 @@ class ArticleAdapter(private val articles: List<Article>, private val fragmentMa
     }
     class ArticleDetailsDialogFragment(private val article: Article) : DialogFragment() {
 
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            return activity?.let {
-                val builder = AlertDialog.Builder(it)
-                builder.setTitle("Article Details")
-                    .setMessage("Number: ${article.number}\nTitle: ${article.title}\nContent: ${article.content}")
-                    .setPositiveButton("Close") { _, _ ->
-                        // Close the dialog
-                        dialog?.dismiss()
-                    }
-                builder.create()
-            } ?: throw IllegalStateException("Activity cannot be null")
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            return inflater.inflate(R.layout.dialog_article_details, container, false)
+        }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+
+            val articleNumberTextView = view.findViewById<TextView>(R.id.textViewArticleNumber)
+            val articleTitleTextView = view.findViewById<TextView>(R.id.textViewArticleTitle)
+            val articleContentTextView = view.findViewById<TextView>(R.id.textViewArticleContent)
+
+            articleNumberTextView.text = article.number
+            articleTitleTextView.text = article.title
+            articleContentTextView.text = article.content
         }
     }
 
