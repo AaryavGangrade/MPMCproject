@@ -1,8 +1,11 @@
 package com.example.firebasechat.activity
 
 import android.app.Activity.RESULT_OK
-import android.app.ProgressDialog
 import android.content.Intent
+import com.example.firebasechat.activity.LoginActivity  // Import the LoginActivity class if not already imported.
+
+
+import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -84,7 +87,16 @@ class ProfileFragment : Fragment() {
             uploadImage()
             binding.progressBar.visibility = View.VISIBLE
         }
+        binding.logout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut() // Sign out the user
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+
     }
+
 
     private fun chooseImage() {
         val intent: Intent = Intent()

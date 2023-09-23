@@ -13,10 +13,15 @@ import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class ChatFragment : Fragment() {
 
-    private val client = OkHttpClient()
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS) // Increase connection timeout to 30 seconds
+        .readTimeout(30, TimeUnit.SECONDS)    // Increase read timeout to 30 seconds
+        .build()
+
     private lateinit var binding: FragmentChatBinding
 
     private val slideInAnimation by lazy {
@@ -35,26 +40,27 @@ class ChatFragment : Fragment() {
 
         // Set an OnClickListener for btnSend
         binding.btnSend.setOnClickListener {
-            // Hide the "Send" button after clicking it
-            binding.btnSend.visibility = View.GONE
-
-            // Slide in the CardViews
-            binding.questionCardView.visibility = View.VISIBLE
-            binding.responseCardView.visibility = View.VISIBLE
-
-            // Apply slide-in animation to CardViews
-            binding.questionCardView.startAnimation(slideInAnimation)
-            binding.responseCardView.startAnimation(slideInAnimation)
-
-            // Setting response TextView to "Please wait.."
-            binding.txtResponse.text = "Please wait.."
-
             // Validating text
             val question = binding.etQuestion.text.toString().trim()
             if (question.isNotEmpty()) {
+                // Slide in the CardViews
+                binding.questionCardView.visibility = View.VISIBLE
+                binding.responseCardView.visibility = View.VISIBLE
+                binding.idTVquestion.text=question.toString()
+
+                // Apply slide-in animation to CardViews
+                binding.questionCardView.startAnimation(slideInAnimation)
+                binding.responseCardView.startAnimation(slideInAnimation)
+
+                // Setting response TextView to "Please wait.."
+                binding.txtResponse.text = "Please wait.."
+
                 postFormData(question) { response ->
                     requireActivity().runOnUiThread {
                         binding.txtResponse.text = response
+                        // Clear the text box and show the "Send" button after receiving a response
+                        binding.etQuestion.text.clear()
+                        binding.btnSend.visibility = View.VISIBLE
                     }
                 }
             }
@@ -79,6 +85,10 @@ class ChatFragment : Fragment() {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
                 callback("Failed to get a response")
+                // Show the "Send" button again in case of failure
+                requireActivity().runOnUiThread {
+                    binding.btnSend.visibility = View.VISIBLE
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {

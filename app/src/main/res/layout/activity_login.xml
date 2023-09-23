@@ -13,7 +13,7 @@
         android:layout_width="221dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:src="@drawable/logos" />
+        android:src="@drawable/appicon" />
 
     <TextView
         android:layout_width="119dp"

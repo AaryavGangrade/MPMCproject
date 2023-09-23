@@ -3,47 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/purplelight">
 
     <!-- CardView for Question -->
     <androidx.cardview.widget.CardView
         android:id="@+id/questionCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:outlineAmbientShadowColor="@color/black"
-        android:outlineSpotShadowColor="@color/black"
+        android:layout_width="407dp"
         android:visibility="gone"
-
-        android:layout_alignParentTop="true"
+        android:layout_height="170dp"
+        android:layout_margin="5dp"
         android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
+        android:background="@color/purplelight"
         android:padding="5dp"
-        android:background="@color/background">
-        <!-- ScrollView for Question -->
-        <ScrollView
+        android:paddingHorizontal="5dp"
+        app:cardBackgroundColor="@color/purplelight">
+
+        <!-- ScrollView for Response -->
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/question"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/background">
 
-                <!-- TextView for displaying question -->
-                <TextView
-                    android:id="@+id/idTVQuestion"
-                    android:layout_width="match_parent"
-                    android:layout_height="94dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/chat"
-                    android:padding="4dp"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
-            </LinearLayout>
-        </ScrollView>
+            <!-- TextView for displaying response -->
+            <TextView
+                android:id="@+id/idTVquestion"
+                android:layout_width="359dp"
+                android:layout_height="120dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:text="Question"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <!-- CardView for Response -->
@@ -53,59 +56,48 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/questionCardView"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:visibility="gone"
-        android:padding="5dp"
-        android:outlineAmbientShadowColor="@color/black"
-        android:outlineSpotShadowColor="@color/black"
+        android:paddingBottom="15dp"
         android:outlineProvider="background"
-        android:background="@color/background">
+        android:padding="5dp"
+        android:visibility="gone"
+
+        >
 
         <!-- ScrollView for Response -->
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/purplelight">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/background">
+                android:background="@drawable/response"
+                android:minHeight="425dp"
+                android:orientation="vertical">
 
 
                 <!-- TextView for displaying response -->
                 <TextView
                     android:id="@+id/txtResponse"
                     android:layout_width="match_parent"
-                    android:layout_height="224dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
                     android:layout_marginTop="10dp"
-                    android:padding="4dp"
+                    android:padding="10dp"
                     android:text="Response"
-
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="68dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="138dp"
-        android:layout_marginBottom="75dp"
-        android:background="@drawable/bottom_nav2"
-        android:drawableStart="@drawable/lawyer"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="LawyerUp" />
+
 
     <RelativeLayout
         android:id="@+id/sendButtonLayout"
@@ -118,29 +110,51 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp">
 
-        <EditText
-            android:id="@+id/etQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="51dp"
-            android:layout_marginBottom="3dp"
-            android:background="@drawable/chat"
-            android:gravity="top|start"
-            android:hint="Enter your query"
-            android:inputType="textMultiLine"
-            android:textColor="@color/black"
-            android:lines="5"
-            android:minHeight="60dp"
-            android:padding="5dp"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp"
-            android:scrollbarSize="6dp"
-            android:scrollbarStyle="insideOverlay"
-            android:scrollbars="vertical"
-            android:textColorHint="@color/black"
-            app:hintAnimationEnabled="true"
-            app:hintTextAppearance="@font/poppins_bold"
-            app:hintTextColor="@color/black"
-            tools:ignore="NotSibling" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="397dp"
+            android:layout_height="111dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etQuestion"
+                android:layout_width="300dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/chatbox"
+                android:hint="Enter your query"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:minHeight="60dp"
+                android:padding="5dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:scrollbarSize="6dp"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="vertical"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:hintAnimationEnabled="true"
+                app:hintTextAppearance="@font/poppins_bold"
+                app:hintTextColor="@color/black"
+                tools:ignore="NotSibling" />
+
+            <TextView
+                android:id="@+id/btnSend"
+
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="30dp"
+                android:drawableStart="@drawable/sendicon"
+                android:gravity="center_vertical" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         <!-- Send button -->
     </RelativeLayout>

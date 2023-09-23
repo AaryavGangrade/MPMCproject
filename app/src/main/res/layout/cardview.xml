@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView
-    android:outlineAmbientShadowColor="@color/like"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    app:cardBackgroundColor="@color/white"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bottom_nav"
+android:outlineAmbientShadowColor="@color/like"
+xmlns:android="http://schemas.android.com/apk/res/android"
+app:cardBackgroundColor="@color/white"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:background="@drawable/bottom_nav"
 
-    app:cardCornerRadius="20dp"
-    android:elevation="40dp"
-    app:cardUseCompatPadding="true"
-    android:clickable="true"
-    android:focusable="true">
-
-
+app:cardCornerRadius="20dp"
+android:elevation="40dp"
+app:cardUseCompatPadding="true"
+android:clickable="true"
+android:focusable="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +25,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/articleNumberTextView"
+            android:id="@+id/lawyername"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -37,7 +35,7 @@
             />
 
         <TextView
-            android:id="@+id/articleTitleTextView"
+            android:id="@+id/lawyerfirmname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -46,13 +44,20 @@
             android:textAlignment="center"/>
 
         <TextView
-            android:id="@+id/articleContentTextView"
+            android:id="@+id/lawyerConatctinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxHeight="400dp"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:maxLines="0"/>
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/lawyerpracticearea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="400dp"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
